@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complemento — Contacto</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap');
+
+  :root{
+    --navy:#02181a;
+    --navy-deep:#010f10;
+    --teal:#4f918d;
+    --teal-dark:#326a67;
+    --gold:#e6a45a;
+    --white:#f7f5ef;
+    --line:rgba(230,164,90,0.35);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  body{
+    background:
+      radial-gradient(circle at 15% 10%, rgba(79,145,141,0.18), transparent 45%),
+      radial-gradient(circle at 90% 85%, rgba(230,164,90,0.10), transparent 50%),
+      var(--navy);
+    font-family:'Work Sans', sans-serif;
+    color:var(--white);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 16px;
+  }
+
+  .card{
+    width:100%;
+    max-width:460px;
+    background:var(--navy-deep);
+    border:1px solid var(--line);
+    position:relative;
+    padding:2px;
+  }
+
+  .inner{
+    border:1px solid var(--line);
+    padding:32px 28px 28px;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:28px;
+  }
+
+  .brand .mark{
+    width:26px; height:26px;
+    border-radius:50%;
+    background:conic-gradient(from 200deg, var(--teal), var(--teal-dark), var(--teal));
+  }
+
+  .brand span{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+
+  h1{
+    font-family:'Archivo Black', sans-serif;
+    font-weight:400;
+    font-size:26px;
+    line-height:1.2;
+    text-transform:uppercase;
+  }
+
+  h1 .accent{ color:var(--teal); }
+
+  .sub{
+    font-size:14px;
+    color:#b9c6c5;
+    margin-top:10px;
+    line-height:1.6;
+  }
+
+  .divider{
+    height:1px;
+    background:var(--line);
+    margin:24px 0;
+  }
+
+  .field{
+    margin-bottom:20px;
+  }
+
+  label{
+    display:block;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:8px;
+  }
+
+  label .req{ color:var(--teal); }
+
+  input[type="text"], input[type="tel"]{
+    width:100%;
+    border:none;
+    border-bottom:1px solid var(--line);
+    background:transparent;
+    font-family:'Work Sans', sans-serif;
+    font-size:16px;
+    padding:8px 2px;
+    color:var(--white);
+    transition:border-color 0.2s ease;
+  }
+
+  input:focus{
+    outline:none;
+    border-bottom-color:var(--gold);
+  }
+
+  input::placeholder{ color:#5c6b6a; }
+
+  .options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+
+  .opt{ position:relative; }
+  .opt input{ position:absolute; opacity:0; }
+
+  .opt span{
+    display:block;
+    text-align:center;
+    padding:12px 6px;
+    border:1px solid var(--line);
+    font-size:13px;
+    font-weight:500;
+    cursor:pointer;
+    transition:all 0.15s ease;
+    user-select:none;
+    color:#cdd7d6;
+  }
+
+  .opt input:checked + span{
+    border-color:var(--teal);
+    background:var(--teal-dark);
+    color:var(--white);
+  }
+
+  .opt input:focus-visible + span{
+    outline:2px solid var(--gold);
+    outline-offset:2px;
+  }
+
+  .opt.wide{ grid-column:1 / -1; }
+
+  button{
+    width:100%;
+    margin-top:8px;
+    padding:16px;
+    background:var(--gold);
+    color:var(--navy-deep);
+    border:none;
+    font-family:'Archivo Black', sans-serif;
+    font-weight:400;
+    font-size:14px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:transform 0.12s ease, background 0.12s ease;
+  }
+
+  button:hover{ background:#f0b673; }
+  button:active{ transform:translateY(1px); }
+
+  button:focus-visible{
+    outline:2px solid var(--teal);
+    outline-offset:2px;
+  }
+
+  .hint{
+    font-size:12px;
+    color:#8a9b99;
+    text-align:center;
+    margin-top:12px;
+    line-height:1.5;
+  }
+
+  .error{
+    font-size:12px;
+    color:var(--gold);
+    margin-top:6px;
+    display:none;
+  }
+
+  .error.show{ display:block; }
+
+  .loc{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    margin-top:22px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="inner">
+
+    <div class="brand">
+      <div class="mark"></div>
+      <span>Complemento</span>
+    </div>
+
+    <h1>Más que<br><span class="accent">un presupuesto.</span></h1>
+    <p class="sub">Contanos qué necesitás y te escribimos por WhatsApp para coordinar la visita y el presupuesto.</p>
+
+    <div class="divider"></div>
+
+    <form id="contactForm">
+      <div class="field">
+        <label for="nombre">Nombre <span class="req">*</span></label>
+        <input type="text" id="nombre" placeholder="Tu nombre y apellido" required>
+      </div>
+
+      <div class="field">
+        <label for="telefono">Teléfono <span class="req">*</span></label>
+        <input type="tel" id="telefono" placeholder="Ej: 351 555 5555" required>
+      </div>
+
+      <div class="field">
+        <label for="zona">Zona <span class="req">*</span></label>
+        <input type="text" id="zona" placeholder="Barrio o localidad" required>
+      </div>
+
+      <div class="field">
+        <label>¿Qué necesitás? <span class="req">*</span></label>
+        <div class="options" role="radiogroup" aria-label="Qué necesitás">
+          <label class="opt">
+            <input type="radio" name="servicio" value="Mantenimiento" required>
+            <span>Mantenimiento</span>
+          </label>
+          <label class="opt">
+            <input type="radio" name="servicio" value="Ampliación">
+            <span>Ampliación</span>
+          </label>
+          <label class="opt wide">
+            <input type="radio" name="servicio" value="Construcción desde cero">
+            <span>Construcción desde cero</span>
+          </label>
+        </div>
+        <p class="error" id="servicioError">Elegí una opción.</p>
+      </div>
+
+      <button type="submit">Enviar por WhatsApp</button>
+      <p class="hint">Se abre WhatsApp con tu mensaje ya armado — solo tenés que confirmar el envío.</p>
+    </form>
+
+    <div class="loc">📍 Córdoba Capital</div>
+
+  </div>
+</div>
+
+<script>
+  const WHATSAPP_NUMBER = "5493513760656";
+
+  const form = document.getElementById('contactForm');
+  const servicioError = document.getElementById('servicioError');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const nombre = document.getElementById('nombre').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const zona = document.getElementById('zona').value.trim();
+    const servicioInput = form.querySelector('input[name="servicio"]:checked');
+
+    if(!servicioInput){
+      servicioError.classList.add('show');
+      return;
+    }
+    servicioError.classList.remove('show');
+
+    const servicio = servicioInput.value;
+
+    const mensaje =
+      `Hola! Soy ${nombre}.\n` +
+      `Teléfono: ${telefono}\n` +
+      `Zona: ${zona}\n` +
+      `Necesito: ${servicio}`;
+
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+  });
+</script>
+
+</body>
+</html>
